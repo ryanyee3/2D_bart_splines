@@ -1,0 +1,20 @@
+\documentclass[12pt]{article}
+\input{latex_header}
+
+\newcommand{\mvnormaldist}[3]{\mathcal{N}_{#1}\left(#2,~#3\right)} % multivariate normal distribution
+\newcommand{\treebeta}{\beta_{t}} % tree betas
+\newcommand{\leafbeta}{\beta_{l}} % leaf betas
+\newcommand{\priorcovariance}{\mathbf{V}} % prior covariance
+\newcommand{\treeresidual}{R_{t}} % tree betas
+\newcommand{\leafresidual}{R_{l}} % leaf betas
+\newcommand{\leafproduct}{\prod_{l = 1}^{b}} % product over leaves
+\newcommand{\splinematrix}{\Phi(\mathbf{X}_l)}
+\newcommand{\precisionmatrix}{\mathbf{P}_{l}}
+
+\title{BART with p-splines derivation}
+
+\begin{document}
+
+\input{likelihood_derivation}
+
+\end{document}

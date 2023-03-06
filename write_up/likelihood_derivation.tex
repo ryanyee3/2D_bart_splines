@@ -1,0 +1,35 @@
+Assume,
+$$
+\begin{aligned}
+    \leafbeta & \sim \mvnormaldist{p}{\mathbf{0}}{\priorcovariance} \\
+\end{aligned}
+$$
+
+Then,
+$$
+\begin{aligned}
+    \mathbb{P}(\treeresidual \vert T_{t}, \sigma) & = \int \mathbb{P}(\treeresidual \vert T_{t}, \sigma) \mathbb{P}(\treebeta \vert T_{t}, \sigma) d\treebeta \\
+    & = \int \leafproduct (2 \pi)^{-\frac{n_l}{2}} |\sigma^2 \mathbb{I}|^{-\frac{1}{2}} \exp \left\{-\frac{1}{2 \sigma^2} (\leafresidual - \splinematrix \leafbeta)^{T} (\leafresidual - \splinematrix \leafbeta) \right\}\\
+    & \quad \leafproduct (2 \pi)^{-\frac{1}{2}} |\priorcovariance|^{-\frac{1}{2}} \exp \left\{-\frac{1}{2} \leafbeta^{T} \priorcovariance^{-1} \leafbeta \right\} d\leafbeta \\
+    & = (2 \pi \sigma^2)^{-\frac{N}{2}} \int \leafproduct (2 \pi)^{-\frac{1}{2}} |\priorcovariance|^{-\frac{1}{2}} \exp \left\{-\frac{1}{2}(\sigma^{-2}\leafresidual^{T}\leafresidual - 2\sigma^{-2}\leafbeta^{T}\splinematrix^{T}\leafresidual\right. \\
+    & \quad \left. + \sigma^{-2}\leafbeta^{T}\splinematrix^{T}\splinematrix\leafbeta + \leafbeta^{T}\priorcovariance^{-1}\leafbeta) \right\} d\treebeta\\
+    & = (2 \pi \sigma^2)^{-\frac{N}{2}} \int \leafproduct (2 \pi)^{-\frac{1}{2}} |\priorcovariance|^{-\frac{1}{2}} \exp \left\{ -\frac{1}{2}(\sigma^{-2}\leafresidual^{T}\leafresidual - 2\sigma^{-2}\leafbeta^{T}\splinematrix^{T}\leafresidual\right. \\
+    & \quad \left. + \leafbeta^{T}(\sigma^{-2}\splinematrix^{T}\splinematrix + \priorcovariance^{-1})\leafbeta\right\} d\treebeta \\ 
+\end{aligned}
+$$
+
+Let $\precisionmatrix = (\sigma^{-2}\splinematrix^{T}\splinematrix + \priorcovariance^{-1})^{-1}$
+
+$$
+\begin{aligned}
+    & = (2 \pi \sigma^2)^{-\frac{N}{2}} \int \leafproduct (2 \pi)^{-\frac{1}{2}} |\priorcovariance|^{-\frac{1}{2}} \exp \left\{ -\frac{1}{2}(\sigma^{-2}\leafresidual^{T}\leafresidual - 2\sigma^{-2}\leafbeta^{T}\splinematrix^{T}\leafresidual + \leafbeta^{T}\precisionmatrix^{-1}\leafbeta)\right\} d\treebeta \\
+    & = (2 \pi \sigma^2)^{-\frac{N}{2}} \int \leafproduct (2 \pi)^{-\frac{1}{2}} |\priorcovariance|^{-\frac{1}{2}} \exp \left\{ -\frac{1}{2}((\leafbeta - \splinematrix^{T}\leafresidual\precisionmatrix)^{T}\precisionmatrix^{-1}(\leafbeta - \splinematrix^{T}\leafresidual\precisionmatrix))\right. \\
+    & \quad \left. - \splinematrix^{T}\leafresidual\precisionmatrix\leafresidual^{T}\splinematrix + \sigma^{-2}\leafresidual^{T}\leafresidual \right\} d\treebeta \\
+    & = (2 \pi \sigma^{2})^{-\frac{N}{2}} \leafproduct \left[|\priorcovariance|^{-\frac{1}{2}} \exp \left\{-\frac{1}{2} (\sigma^{-2}\leafresidual^{T}\leafresidual - \splinematrix^{T}\leafresidual\precisionmatrix\leafresidual^{T}\splinematrix) \right\} \right] \int \leafproduct (2 \pi)^{-\frac{1}{2}} \\
+    & \quad \exp \left\{ -\frac{1}{2}((\leafbeta - \splinematrix^{T}\leafresidual\precisionmatrix)^{T}\precisionmatrix^{-1}(\leafbeta - \splinematrix^{T}\leafresidual\precisionmatrix))\right\} d\treebeta \\
+\end{aligned}
+$$
+
+Let $\mu_{l} = \splinematrix^{T}\leafresidual$. Then $\leafbeta \vert \leafresidual, T_{t}, \sigma^{2} \sim \mvnormaldist{b}{\mu_{l}\precisionmatrix}{\precisionmatrix}$.
+
+
